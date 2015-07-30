@@ -1,10 +1,13 @@
 <%= form_for @post do |f| %>
+  <p> 
   <%= f.label :title %>
   <%= f.text_field :title %>
-  <br>
+  </p>
+  <p>
   <%= f.label :body %>
   <%= f.text_area :body %>
-  <br>
+  </p>
+  <p>
   <%= f.label :tag_id %>
   <br>
   <%= f.collection_check_boxes(  
@@ -23,9 +26,17 @@
                         :name,
                         {},
                         multiple:true )  %> 
+  </p>
   <%= f.fields_for :child_comments do |c| %>
   <br>
-  
+  <%= c.label :user_id %>
+  <%= c.collection_radio_buttons(
+                        :user_id,
+                        User.all,
+                        :id,
+                        :name,
+                        {}
+                        ) %>
   <br>
   <%= c.label :body %>
   <%= c.text_field :body %>

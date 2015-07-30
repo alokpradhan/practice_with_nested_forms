@@ -1,8 +1,10 @@
 <%= form_for @post do |f| %>
   <%= f.label :title %>
   <%= f.text_field :title %>
+  <br>
   <%= f.label :body , id: "whatever-id" %>
   <%= f.text_area :body , class: "whatever-class" %>
+  <br>
   <%= f.label :tag_id %>
   <br>
   <%= f.collection_check_boxes(  
@@ -20,6 +22,28 @@
                         :name,
                         {},
                         multiple:true )  %> 
+
+  <%= f.fields_for :child_comments do |c| %>
+  <br>
+  <%= c.label :user_id %>
+  <%= c.collection_radio_buttons(
+                        :user_id,
+                        User.all,
+                        :id,
+                        :name,
+                        {}
+                        ) %>
+  <br>
+  <%= c.label :body %>
+  <%= c.text_field :body %>
+  
+  <% if c.object.persisted? %>
+    <%= c.label :_destroy, "Delete this comment" %>
+    <%= c.check_box :_destroy %>
+  <% end %>
+
+  <% end %>
+  <br><br>
   <%= f.submit %>
 
 <% end %>

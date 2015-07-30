@@ -11,27 +11,32 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.save
-
-    redirect_to new_post_path
+    if @post.save
+      redirect_to posts_path
+    else
+      render :new
+    end
   end
 
   def update
     @post = Post.all.find(params[:id])
-    @post.update(post_params)
-
-    redirect_to new_post_path
+    if @post.update(post_params)
+      redirect_to posts_path
+    else
+      render :edit
+    end
   end
 
   def edit
     @post = Post.all.find(params[:id])
+    @post.child_comments.build
   end
 
   def post_params
-    user_id = Post.find(params[:id]).authors.ids
+    # user_id = Post.find(params[:id]).authors.ids
     params
       .require(:post)
-      .permit(:title, :body, :tags_on_authored_post_ids => [], :author_ids => [],:child_comments_attributes => [:body,:id,:_destroy,user_id])
+      .permit(:title, :body, :tags_on_authored_post_ids => [], :author_ids => [], :child_comments_attributes => [:body,:id,:_destroy, :user_id])
   end
 
 end
