@@ -6,4 +6,7 @@ class Post < ActiveRecord::Base
   has_many :child_comments, 
            :class_name => "Comment" , 
            :dependent => :destroy
+
+  accepts_nested_attributes_for :child_comments
+
 end

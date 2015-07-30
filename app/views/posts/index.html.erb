@@ -1,0 +1,7 @@
+<h1>all posts</h1>
+
+<% @posts.each do |post| %>
+  <li><% post.id %></li>
+ 
+   <li><%= link_to "Edit", edit_post_path(post) %></li>
+  <% end %>
